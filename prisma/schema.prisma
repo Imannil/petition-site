@@ -1,0 +1,34 @@
+// Stop Iran War — Production database schema
+// Designed for tens of thousands of supporters with privacy and moderation support.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Supporter {
+  id               String   @id @default(cuid())
+  fullName         String   @map("full_name")
+  firstName        String   @map("first_name")
+  email            String   @unique
+  emailHash        String?  @map("email_hash")
+  country          String
+  affiliation      String?  @db.Text
+  consentGiven     Boolean  @map("consent_given")
+  isApproved       Boolean  @default(true) @map("is_approved")
+  isInitialSupporter Boolean @default(false) @map("is_initial_supporter")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  // Abuse prevention — hashed to protect privacy while enabling rate/abuse checks
+  ipHash           String?  @map("ip_hash")
+  userAgentHash    String?  @map("user_agent_hash")
+
+  @@index([email])
+  @@index([isApproved, createdAt])
+  @@index([isInitialSupporter])
+  @@map("supporters")
+}
