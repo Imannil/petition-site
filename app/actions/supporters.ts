@@ -16,9 +16,10 @@ export type PublicSupporter = {
 };
 
 export async function getSupportersCount(): Promise<number> {
-  return prisma.supporter.count({
-    where: { isApproved: true },
+  const totalOthers = await prisma.supporter.count({
+    where: { isApproved: true, isInitialSupporter: false },
   });
+  return initialSignatories.length + totalOthers;
 }
 
 /**

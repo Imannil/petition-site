@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/db";
 import { signPetitionSchema } from "@/lib/validation";
-import { getLastNameForSort } from "@/lib/formatName";
 import { getClientIP, checkRateLimit } from "@/lib/rateLimit";
 import { COUNTRY_SET } from "@/data/countries";
 import { headers } from "next/headers";
@@ -71,52 +70,21 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
       return { ok: false, error: "This email has already been used to sign the petition." };
     }
 
-    // Try with lastName first; if DB has no last_name column yet, retry without it so sign still succeeds
-    try {
-      await prisma.supporter.create({
-        data: {
-          fullName,
-          firstName,
-          lastName: getLastNameForSort(fullName),
-          email: emailNormalized,
-          emailHash: hash(emailNormalized),
-          country,
-          affiliation,
-          consentGiven: true,
-          isApproved: true,
-          isInitialSupporter: false,
-          ipHash: hash(ip),
-          userAgentHash: hash(userAgent),
-        },
-      });
-    } catch (createError: unknown) {
-      const isMissingColumn =
-        createError &&
-        typeof createError === "object" &&
-        "message" in createError &&
-        typeof (createError as { message: string }).message === "string" &&
-        ((createError as { message: string }).message.includes("last_name") ||
-          (createError as { message: string }).message.includes("lastName"));
-      if (isMissingColumn) {
-        await prisma.supporter.create({
-          data: {
-            fullName,
-            firstName,
-            email: emailNormalized,
-            emailHash: hash(emailNormalized),
-            country,
-            affiliation,
-            consentGiven: true,
-            isApproved: true,
-            isInitialSupporter: false,
-            ipHash: hash(ip),
-            userAgentHash: hash(userAgent),
-          },
-        });
-      } else {
-        throw createError;
-      }
-    }
+    await prisma.supporter.create({
+      data: {
+        fullName,
+        firstName,
+        email: emailNormalized,
+        emailHash: hash(emailNormalized),
+        country,
+        affiliation,
+        consentGiven: true,
+        isApproved: true,
+        isInitialSupporter: false,
+        ipHash: hash(ip),
+        userAgentHash: hash(userAgent),
+      },
+    });
     return { ok: true };
   } catch (e: unknown) {
     const msg = e && typeof e === "object" && "code" in e && e.code === "P2002"

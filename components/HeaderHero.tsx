@@ -5,7 +5,10 @@ import type { Lang } from "@/content/translations";
 import { translations } from "@/content/translations";
 
 async function fetchCount(): Promise<number> {
-  const res = await fetch("/api/count");
+  const res = await fetch("/api/count", {
+    cache: "no-store",
+    headers: { "Cache-Control": "no-cache" },
+  });
   if (!res.ok) return 0;
   const data = await res.json();
   return typeof data.count === "number" ? data.count : 0;
