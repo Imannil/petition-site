@@ -14,8 +14,20 @@ export function formatFullNameToLastFirst(fullName: string): string {
 }
 
 /**
+ * Capitalize the first letter of each word for display (e.g. "JOHN DOE" → "John Doe").
+ */
+function capitalizeForDisplay(s: string): string {
+  return s
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+/**
  * Build display name from firstName + lastName, or fall back to parsing fullName (legacy).
- * Use when you have optional firstName/lastName (e.g. from DB) and fullName.
+ * Always returns "Lastname, Firstname" with first letter of each part capitalized.
  */
 export function getDisplayName(
   fullName: string,
@@ -24,8 +36,15 @@ export function getDisplayName(
 ): string {
   const first = (firstName ?? "").trim();
   const last = (lastName ?? "").trim();
-  if (first && last) return `${last}, ${first}`;
-  return formatFullNameToLastFirst(fullName);
+  if (first && last) {
+    return `${capitalizeForDisplay(last)}, ${capitalizeForDisplay(first)}`;
+  }
+  const fromFull = formatFullNameToLastFirst(fullName);
+  if (!fromFull) return fromFull;
+  // "Last, First" → capitalize each part
+  const commaIdx = fromFull.indexOf(", ");
+  if (commaIdx === -1) return capitalizeForDisplay(fromFull);
+  return `${capitalizeForDisplay(fromFull.slice(0, commaIdx))}, ${capitalizeForDisplay(fromFull.slice(commaIdx + 2))}`;
 }
 
 /**
