@@ -5,7 +5,7 @@ import { signPetition } from "@/app/actions/sign";
 import { COUNTRIES } from "@/data/countries";
 
 const CONSENT_TEXT =
-  "I support this statement and understand that my name, country, and affiliation (if provided) may be publicly displayed as a supporter. My email is used to register my signature and will not be shown publicly or shared.";
+  "I support this petition and understand that my name, country, and affiliation may be publicly displayed as a supporter. My email is used to register my signature and will not be shown publicly or shared. Signatures with affiliation appear first.";
 
 export default function PetitionFormSection() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
@@ -105,6 +105,44 @@ export default function PetitionFormSection() {
             </div>
 
             <div>
+              <label htmlFor="affiliation" className="sr-only">
+                Affiliation (optional)
+              </label>
+              <input
+                id="affiliation"
+                name="affiliation"
+                type="text"
+                maxLength={300}
+                placeholder="Academic/professional affiliations (highly recommended)"
+                value={form.affiliation}
+                onChange={(e) => setForm((f) => ({ ...f, affiliation: e.target.value }))}
+                disabled={status === "submitting"}
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email (required, not shown publicly)
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                maxLength={254}
+                placeholder="Email address * (registration only; kept private)"
+                value={form.email}
+                onChange={(e) => {
+                  setForm((f) => ({ ...f, email: e.target.value }));
+                  setError("");
+                }}
+                disabled={status === "submitting"}
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
+              />
+            </div>
+
+            <div>
               <label htmlFor="country" className="sr-only">
                 Country of residence (required)
               </label>
@@ -132,44 +170,6 @@ export default function PetitionFormSection() {
                   </option>
                 ))}
               </select>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email (required, not shown publicly)
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                maxLength={254}
-                placeholder="Email address * (registration only; kept private)"
-                value={form.email}
-                onChange={(e) => {
-                  setForm((f) => ({ ...f, email: e.target.value }));
-                  setError("");
-                }}
-                disabled={status === "submitting"}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="affiliation" className="sr-only">
-                Affiliation (optional)
-              </label>
-              <input
-                id="affiliation"
-                name="affiliation"
-                type="text"
-                maxLength={300}
-                placeholder="Affiliation (highly recommended)"
-                value={form.affiliation}
-                onChange={(e) => setForm((f) => ({ ...f, affiliation: e.target.value }))}
-                disabled={status === "submitting"}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
-              />
             </div>
 
             <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-[rgba(192,57,43,.2)] bg-[rgba(192,57,43,.06)] p-4 transition hover:bg-[rgba(192,57,43,.1)]">
