@@ -30,8 +30,6 @@ export const signPetitionSchema = z.object({
         "You must confirm the statement to sign. Please check the box.",
     }),
   }),
-  // Optional: Turnstile token for bot protection
-  turnstileToken: z.string().optional(),
 });
 
 export type SignPetitionInput = z.infer<typeof signPetitionSchema>;

@@ -104,7 +104,7 @@ You need a **PostgreSQL connection string** for production. Choose one option be
    - **Name:** `DATABASE_URL`  
      **Value:** your production PostgreSQL connection string from Step 2.  
      **Environments:** check **Production**, **Preview**, and **Development** if you use Vercel previews.
-3. (Optional) **Cloudflare Turnstile** (bot protection for the sign form):
+3. (Optional) For future bot protection you can add Cloudflare Turnstile later: set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` in Vercel. Not required for initial deploy.
    - **Name:** `NEXT_PUBLIC_TURNSTILE_SITE_KEY` → **Value:** your Turnstile **site key** (public).  
    - **Name:** `TURNSTILE_SECRET_KEY` → **Value:** your Turnstile **secret key** (private).  
    - **Environments:** check **Production** (and **Preview** if you use preview deployments).

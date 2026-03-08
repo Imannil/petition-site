@@ -26,10 +26,6 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
     email: formData.get("email") ?? "",
     affiliation: formData.get("affiliation") ?? "",
     consentGiven: formData.get("consentGiven") === "true" || formData.get("consentGiven") === "on",
-    turnstileToken:
-      (formData.get("turnstileToken") as string | null) ??
-      (formData.get("cf-turnstile-response") as string | null) ??
-      undefined,
   };
 
   const parsed = signPetitionSchema.safeParse({
@@ -57,23 +53,6 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
   const rate = checkRateLimit(ip, "sign", 5, 3600_000);
   if (!rate.allowed) {
     return { ok: false, error: "Too many attempts. Please try again later." };
-  }
-
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (secret) {
-    const token = data.turnstileToken?.trim();
-    if (!token) {
-      return { ok: false, error: "Verification failed. Please try again." };
-    }
-    const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ secret, response: token, remoteip: ip }),
-    });
-    const verify = (await verifyRes.json()) as { success?: boolean };
-    if (!verify.success) {
-      return { ok: false, error: "Verification failed. Please try again." };
-    }
   }
 
   const emailNormalized = data.email.trim().toLowerCase();
