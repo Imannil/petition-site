@@ -118,8 +118,14 @@ export const translations = {
           },
           {
             type: "text",
-            value: " می‌دانیم. این اقدامات، از جمله حملات به ",
+            value: " می‌دانیم. این اقدامات، از جمله حملات ",
           },
+          {
+            type: "link",
+            value: "ساختمان‌های مسکونی",
+            href: L.residentialBuildings,
+          },
+          { type: "text", value: "، " },
           { type: "link", value: "بیمارستان‌ها", href: L.hospitals },
           { type: "text", value: "، " },
           { type: "link", value: "تأسیسات امدادی", href: L.emergencyFacilities },
