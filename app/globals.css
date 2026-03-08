@@ -78,3 +78,10 @@ body::before {
   outline: 2px solid var(--red-l);
   outline-offset: 2px;
 }
+
+/* Affiliation field: keep long placeholder inside input on narrow screens (320px–430px) */
+@media (max-width: 430px) {
+  .affiliation-input::placeholder {
+    font-size: 0.625rem; /* 10px – full placeholder fits on 320px without overflow */
+  }
+}

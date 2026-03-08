@@ -117,7 +117,7 @@ export default function PetitionFormSection() {
                 value={form.affiliation}
                 onChange={(e) => setForm((f) => ({ ...f, affiliation: e.target.value }))}
                 disabled={status === "submitting"}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
+                className="affiliation-input w-full min-w-0 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
               />
             </div>
 
