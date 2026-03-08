@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { signPetitionSchema } from "@/lib/validation";
+import { getLastNameForSort } from "@/lib/formatName";
 import { getClientIP, checkRateLimit } from "@/lib/rateLimit";
 import { COUNTRY_SET } from "@/data/countries";
 import { headers } from "next/headers";
@@ -74,6 +75,7 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
       data: {
         fullName,
         firstName,
+        lastName: getLastNameForSort(fullName),
         email: emailNormalized,
         emailHash: hash(emailNormalized),
         country,

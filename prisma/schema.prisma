@@ -14,6 +14,7 @@ model Supporter {
   id               String   @id @default(cuid())
   fullName         String   @map("full_name")
   firstName        String   @map("first_name")
+  lastName         String?  @map("last_name")
   email            String   @unique
   emailHash        String?  @map("email_hash")
   country          String
@@ -30,5 +31,6 @@ model Supporter {
   @@index([email])
   @@index([isApproved, createdAt])
   @@index([isInitialSupporter])
+  @@index([lastName])
   @@map("supporters")
 }

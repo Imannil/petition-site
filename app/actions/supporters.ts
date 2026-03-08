@@ -1,6 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/db";
+import { initialSignatories } from "@/content/initial-signatories";
+import { getLastNameForSort } from "@/lib/formatName";
 
 const DEFAULT_PAGE_SIZE = 100;
 const MAX_PAGE_SIZE = 100;
@@ -20,8 +22,8 @@ export async function getSupportersCount(): Promise<number> {
 }
 
 /**
- * Returns supporters for public display: initial supporters first (pinned),
- * then all other approved supporters in alphabetical order by full name.
+ * Returns supporters for public display: initial supporters first (pinned, from content file),
+ * then all other approved supporters from the DB. Both groups sorted alphabetically by last name.
  * Pagination accounts for initial supporters on page 1.
  */
 export async function getPublicSupporters(options: {
@@ -34,34 +36,50 @@ export async function getPublicSupporters(options: {
     MAX_PAGE_SIZE,
     Math.max(1, options.pageSize ?? DEFAULT_PAGE_SIZE)
   );
-  const search = typeof options.search === "string" ? options.search.trim() : "";
+  const search = typeof options.search === "string" ? options.search.trim().toLowerCase() : "";
 
+  // --- Pinned initial supporters: from content file (so deploys always show current list) ---
+  let initialList: PublicSupporter[] = initialSignatories.map((s, i) => ({
+    id: `initial-${i}`,
+    fullName: s.fullName,
+    country: s.country,
+    affiliation: s.affiliation ?? null,
+    isInitialSupporter: true as const,
+  }));
+
+  if (search) {
+    initialList = initialList.filter(
+      (s) =>
+        s.fullName.toLowerCase().includes(search) ||
+        s.country.toLowerCase().includes(search) ||
+        (s.affiliation?.toLowerCase().includes(search) ?? false)
+    );
+  }
+
+  initialList.sort((a, b) =>
+    getLastNameForSort(a.fullName).localeCompare(getLastNameForSort(b.fullName))
+  );
+
+  const totalInitial = initialList.length;
+
+  // --- Other supporters: from DB, sorted by last name ---
   const searchWhere = search
     ? {
         isApproved: true as const,
+        isInitialSupporter: false as const,
         OR: [
           { fullName: { contains: search, mode: "insensitive" as const } },
           { country: { contains: search, mode: "insensitive" as const } },
           { affiliation: { contains: search, mode: "insensitive" as const } },
         ],
       }
-    : { isApproved: true as const };
+    : { isApproved: true as const, isInitialSupporter: false as const };
 
-  // Pinned initial supporters: always first, ordered alphabetically by full name
-  const initialSupporters = await prisma.supporter.findMany({
-    where: { ...searchWhere, isInitialSupporter: true },
-    select: { id: true, fullName: true, country: true, affiliation: true },
-    orderBy: { fullName: "asc" },
-  });
-
-  const totalInitial = initialSupporters.length;
   const totalOthers = await prisma.supporter.count({
-    where: { ...searchWhere, isInitialSupporter: false },
+    where: searchWhere,
   });
   const total = totalInitial + totalOthers;
 
-  // Page 1: initial supporters + first (pageSize - totalInitial) others
-  // Page 2+: only others, with skip/take adjusted
   const othersSkip =
     page === 1 ? 0 : Math.max(0, (page - 1) * pageSize - totalInitial);
   const othersTake =
@@ -70,23 +88,35 @@ export async function getPublicSupporters(options: {
       : Math.min(pageSize, totalOthers - othersSkip);
 
   const includeInitialOnPage = page === 1 && totalInitial > 0;
-  const initialPortion = includeInitialOnPage ? initialSupporters : [];
+  const initialPortion = includeInitialOnPage ? initialList : [];
 
-  const others = await prisma.supporter.findMany({
-    where: { ...searchWhere, isInitialSupporter: false },
-    select: { id: true, fullName: true, country: true, affiliation: true },
-    orderBy: { fullName: "asc" },
-    skip: othersSkip,
-    take: othersTake,
-  });
+  let others: { id: string; fullName: string; country: string; affiliation: string | null }[];
+  try {
+    others = await prisma.supporter.findMany({
+      where: searchWhere,
+      select: { id: true, fullName: true, country: true, affiliation: true },
+      orderBy: { lastName: "asc" },
+      skip: othersSkip,
+      take: othersTake,
+    });
+  } catch {
+    // DB may not have lastName column yet (run: npx prisma db push && npm run db:seed)
+    others = await prisma.supporter.findMany({
+      where: searchWhere,
+      select: { id: true, fullName: true, country: true, affiliation: true },
+      orderBy: { fullName: "asc" },
+      skip: othersSkip,
+      take: othersTake,
+    });
+  }
 
   const supporters: PublicSupporter[] = [
-    ...initialPortion.map((s: { id: string; fullName: string; country: string; affiliation: string | null }) => ({
-      ...s,
-      isInitialSupporter: true as const,
-    })),
+    ...initialPortion,
     ...others.map((s: { id: string; fullName: string; country: string; affiliation: string | null }) => ({
-      ...s,
+      id: s.id,
+      fullName: s.fullName,
+      country: s.country,
+      affiliation: s.affiliation,
       isInitialSupporter: false as const,
     })),
   ];

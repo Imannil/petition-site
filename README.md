@@ -37,6 +37,8 @@ Production-ready single-page petition website for **stopiranwar.org**. Built wit
 
    The app uses `force-dynamic` for the home page, so you can run `npm run build` without a database; at runtime you need a valid `DATABASE_URL`.
 
+   **Existing databases**: After pulling changes that add the `lastName` column, run `npx prisma db push` (or deploy migrations), then `npm run db:seed` once to backfill last names for existing supporters so sorting works correctly.
+
 4. **Run**
    ```bash
    npm run dev
@@ -46,7 +48,7 @@ Production-ready single-page petition website for **stopiranwar.org**. Built wit
 ## Content to Replace
 
 - **Petition statement**: Edit `content/petition-statement.ts` (intro + body paragraphs).
-- **Initial 80 signatories**: Edit `content/initial-signatories.ts`. Then re-run seed or insert via Prisma. The UI shows DB-backed initial supporters when present; otherwise it falls back to this file.
+- **Initial signatories**: Edit **`content/initial-signatories.ts`**. The public signatures list reads this file at runtime, so **after you change it and redeploy, the deployed site will show the updated list** with no extra steps. To keep the total signature count correct, you can still run `npm run db:seed` (which syncs these into the DB for counting); the list display always uses the file.
 
 ## Environment Variables
 

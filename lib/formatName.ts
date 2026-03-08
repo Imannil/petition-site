@@ -14,3 +14,14 @@ export function formatFullNameToLastFirst(fullName: string): string {
   const firstNames = parts.slice(0, -1).join(" ");
   return `${lastName}, ${firstNames}`;
 }
+
+/**
+ * Extract last name for sorting (last word of full name; same convention as display).
+ * Single-word names return the whole string; empty returns "".
+ */
+export function getLastNameForSort(fullName: string): string {
+  const trimmed = fullName.trim();
+  if (!trimmed) return "";
+  const parts = trimmed.split(/\s+/).filter(Boolean);
+  return (parts[parts.length - 1] ?? "").toLowerCase();
+}

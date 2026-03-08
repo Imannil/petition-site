@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatFullNameToLastFirst } from "@/lib/formatName";
+import { formatFullNameToLastFirst, getLastNameForSort } from "@/lib/formatName";
 
 describe("formatFullNameToLastFirst", () => {
   it("returns empty string unchanged", () => {
@@ -52,5 +52,25 @@ describe("formatFullNameToLastFirst", () => {
 
   it("two single-character words are formatted as Last, First", () => {
     expect(formatFullNameToLastFirst("A B")).toBe("B, A");
+  });
+});
+
+describe("getLastNameForSort", () => {
+  it("returns empty string for empty or whitespace", () => {
+    expect(getLastNameForSort("")).toBe("");
+    expect(getLastNameForSort("   ")).toBe("");
+  });
+
+  it("returns last word in lowercase for sorting", () => {
+    expect(getLastNameForSort("Jane Doe")).toBe("doe");
+    expect(getLastNameForSort("John Smith")).toBe("smith");
+  });
+
+  it("returns single word in lowercase", () => {
+    expect(getLastNameForSort("Madonna")).toBe("madonna");
+  });
+
+  it("uses last word for multi-part names", () => {
+    expect(getLastNameForSort("Mary Jane Watson")).toBe("watson");
   });
 });
