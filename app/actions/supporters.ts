@@ -90,25 +90,15 @@ export async function getPublicSupporters(options: {
   const includeInitialOnPage = page === 1 && totalInitial > 0;
   const initialPortion = includeInitialOnPage ? initialList : [];
 
-  let others: { id: string; fullName: string; country: string; affiliation: string | null }[];
-  try {
-    others = await prisma.supporter.findMany({
-      where: searchWhere,
-      select: { id: true, fullName: true, country: true, affiliation: true },
-      orderBy: { lastName: "asc" },
-      skip: othersSkip,
-      take: othersTake,
-    });
-  } catch {
-    // DB may not have lastName column yet (run: npx prisma db push && npm run db:seed)
-    others = await prisma.supporter.findMany({
-      where: searchWhere,
-      select: { id: true, fullName: true, country: true, affiliation: true },
-      orderBy: { fullName: "asc" },
-      skip: othersSkip,
-      take: othersTake,
-    });
-  }
+  // Use fullName for ordering so this works even when last_name column doesn't exist yet.
+  // After running `npx prisma db push`, you can switch to orderBy: { lastName: "asc" } for last-name sort.
+  const others = await prisma.supporter.findMany({
+    where: searchWhere,
+    select: { id: true, fullName: true, country: true, affiliation: true },
+    orderBy: { fullName: "asc" },
+    skip: othersSkip,
+    take: othersTake,
+  });
 
   const supporters: PublicSupporter[] = [
     ...initialPortion,
