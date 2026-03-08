@@ -27,7 +27,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon.png", type: "image/png", sizes: "16x16" },
     ],
+    shortcut: "/favicon.png",
   },
   openGraph: {
     title: "Stop Iran War — Peace Petition",
@@ -44,6 +46,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${sourceSerif.variable} ${cormorant.variable} ${dmSans.variable}`}>
+      <head>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
+        <link rel="shortcut icon" href="/favicon.png" />
+      </head>
       <body className="relative z-[1] antialiased">{children}</body>
     </html>
   );
