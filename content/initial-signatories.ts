@@ -87,4 +87,14 @@ export const initialSignatories: InitialSignatory[] = [
     country: "United States",
     affiliation: "City University of New York",
   },
+  {
+    fullName: "Zeinab Vessal",
+    country: "United States",
+    affiliation: "GTU Berkeley",
+  },
+  {
+    fullName: "Hossein Kamaly",
+    country: "United States",
+    affiliation: "Hartford International University for Religion and Peace",
+  },
 ];

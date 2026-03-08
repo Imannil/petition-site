@@ -25,7 +25,9 @@ export const metadata: Metadata = {
   description:
     "A petition calling for de-escalation, dialogue, and peace. Add your name in support.",
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+    ],
   },
   openGraph: {
     title: "Stop Iran War — Peace Petition",
