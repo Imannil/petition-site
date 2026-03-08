@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { formatFullNameToLastFirst } from "@/lib/formatName";
 
 type Supporter = {
   id: string;
@@ -10,7 +11,7 @@ type Supporter = {
   isInitialSupporter: boolean;
 };
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 100;
 
 export default function SupportersListSection() {
   const [supporters, setSupporters] = useState<Supporter[]>([]);
@@ -54,23 +55,19 @@ export default function SupportersListSection() {
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const hasMore = page < totalPages;
-  const showInitialLabel =
-    page === 1 &&
-    supporters.length > 0 &&
-    supporters.some((s) => s.isInitialSupporter);
 
   return (
     <section
-      className="mx-auto max-w-4xl px-4 py-12 sm:py-16"
+      className="mx-auto max-w-4xl px-4 py-10 sm:py-12"
       aria-labelledby="supporters-heading"
     >
       <h2
         id="supporters-heading"
-        className="font-serif text-2xl font-semibold text-[var(--cream)] text-center mb-2"
+        className="font-heading text-2xl font-semibold text-[var(--cream)] text-center mb-1"
       >
         Signatures
       </h2>
-      <p className="text-center text-sm text-[var(--dim)] mb-6">
+      <p className="text-center text-sm text-[var(--dim)] mb-5">
         {total.toLocaleString()} signatures
       </p>
 
@@ -90,29 +87,21 @@ export default function SupportersListSection() {
 
       {!error && supporters.length > 0 && (
         <>
-          {showInitialLabel && (
-            <p
-              className="text-xs font-medium uppercase tracking-wider text-[var(--dim)] mb-3"
-              aria-hidden
-            >
-              Initial Signatories
-            </p>
-          )}
-          <ul className="grid gap-2 sm:grid-cols-2" aria-busy={loading}>
+          <ul className="grid gap-1.5 sm:grid-cols-2" aria-busy={loading}>
             {supporters.map((s) => (
               <li
                 key={s.id}
-                className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
+                className="flex items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2"
               >
                 <span
                   className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--green-t)]"
                   aria-hidden
                 />
-                <div className="min-w-0">
-                  <span className="font-medium text-[var(--cream)]">
-                    {s.fullName}
+                <div className="min-w-0 flex-1">
+                  <span className="text-sm font-medium text-[var(--cream)]">
+                    {formatFullNameToLastFirst(s.fullName)}
                   </span>
-                  <span className="text-[var(--dim)]"> · {s.country}</span>
+                  <span className="text-xs text-[var(--dim)]"> · {s.country}</span>
                   {s.affiliation && (
                     <span className="block text-xs text-[var(--dim)] truncate">
                       {s.affiliation}
@@ -123,12 +112,12 @@ export default function SupportersListSection() {
             ))}
           </ul>
 
-          <div className="mt-6 flex items-center justify-center gap-4">
+          <div className="mt-5 flex items-center justify-center gap-3">
             <button
               type="button"
               onClick={() => load(page - 1)}
               disabled={page <= 1 || loading}
-              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--cream)] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--border)]"
+              className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-sm text-[var(--cream)] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--border)]"
             >
               Previous
             </button>
@@ -139,7 +128,7 @@ export default function SupportersListSection() {
               type="button"
               onClick={() => load(page + 1)}
               disabled={!hasMore || loading}
-              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--cream)] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--border)]"
+              className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-sm text-[var(--cream)] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--border)]"
             >
               Next
             </button>

@@ -55,11 +55,11 @@ export default function HeaderHero({ lang }: Props) {
       </header>
 
       <section
-        className="relative mx-auto max-w-3xl px-4 pb-12 pt-12 text-center sm:px-6 sm:pt-16"
+        className="relative mx-auto max-w-3xl px-4 pb-10 pt-10 text-center sm:px-6 sm:pt-12"
         dir={isRtl ? "rtl" : "ltr"}
       >
         {isRtl ? (
-          <h1 className="font-serif text-5xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-6xl md:text-7xl animate-[fadeUp_0.55s_0.1s_ease_both]">
+          <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-5xl md:text-6xl animate-[fadeUp_0.55s_0.1s_ease_both]">
             <span className="text-[var(--red-l)]">جنگ</span>
             <span> با </span>
             <span className="text-[var(--red-l)]">ایران</span>
@@ -68,7 +68,7 @@ export default function HeaderHero({ lang }: Props) {
             <span> کنید</span>
           </h1>
         ) : (
-          <h1 className="font-serif text-5xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-6xl md:text-7xl animate-[fadeUp_0.55s_0.1s_ease_both]">
+          <h1 className="font-heading text-5xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-6xl md:text-7xl animate-[fadeUp_0.55s_0.1s_ease_both]">
             <span className="text-[var(--red-l)]">{t.titleStop}</span>{" "}
             <span className="text-[var(--cream)]">{t.titleIran}</span>{" "}
             <span className="italic bg-gradient-to-br from-[var(--red)] to-[var(--red-l)] bg-clip-text text-transparent">

@@ -64,12 +64,12 @@ export const initialSignatories: InitialSignatory[] = [
   },
   {
     fullName: "Arman Rahmim",
-    country: "United States",
+    country: "Canada",
     affiliation: "University of British Columbia",
   },
   {
     fullName: "Mohammad Saleh Zarepour",
-    country: "United States",
+    country: "United Kingdom",
     affiliation: "University of Manchester",
   },
   {

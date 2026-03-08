@@ -61,9 +61,22 @@ Production-ready single-page petition website for **stopiranwar.org**. Built wit
 - `npm run dev` — development server
 - `npm run build` — Prisma generate + Next.js build
 - `npm run start` — production server
+- `npm run test` — run tests in watch mode (Vitest)
+- `npm run test:run` — run tests once (CI-friendly)
 - `npm run db:push` — push schema to DB (no migrations)
 - `npm run db:migrate` — deploy migrations
 - `npm run db:seed` — seed initial 80 supporters
+
+## Testing
+
+Tests use **Vitest** and live next to the code they cover.
+
+**Run all tests once:** `npm run test:run`
+
+**Run in watch mode:** `npm run test`
+
+- **`lib/formatName.test.ts`** — Name formatting: empty/whitespace, single-word, "Lastname, Firstname", trimming, unicode.
+- **`app/api/supporters/route.test.ts`** — GET `/api/supporters`: response shape, query params, defaults, clamping, 500 on error.
 
 ## Architecture
 

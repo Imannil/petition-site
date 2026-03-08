@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Source_Serif_4, Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-heading",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -32,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${sourceSerif.variable} ${cormorant.variable} ${dmSans.variable}`}>
       <body className="relative z-[1] antialiased">{children}</body>
     </html>
   );

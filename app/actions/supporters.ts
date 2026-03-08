@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/db";
 
-const DEFAULT_PAGE_SIZE = 50;
+const DEFAULT_PAGE_SIZE = 100;
 const MAX_PAGE_SIZE = 100;
 
 export type PublicSupporter = {
@@ -47,11 +47,11 @@ export async function getPublicSupporters(options: {
       }
     : { isApproved: true as const };
 
-  // Pinned initial supporters: always first, ordered by creation
+  // Pinned initial supporters: always first, ordered alphabetically by full name
   const initialSupporters = await prisma.supporter.findMany({
     where: { ...searchWhere, isInitialSupporter: true },
     select: { id: true, fullName: true, country: true, affiliation: true },
-    orderBy: { createdAt: "asc" },
+    orderBy: { fullName: "asc" },
   });
 
   const totalInitial = initialSupporters.length;

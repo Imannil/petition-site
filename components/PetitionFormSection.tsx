@@ -43,10 +43,10 @@ export default function PetitionFormSection() {
   return (
     <section
       id="petition-form"
-      className="mx-auto max-w-xl px-4 py-12 sm:py-16 scroll-mt-20"
+      className="mx-auto max-w-xl px-4 py-10 sm:py-12 scroll-mt-20"
       aria-labelledby="form-heading"
     >
-      <h2 id="form-heading" className="font-serif text-2xl font-semibold text-[var(--cream)] text-center mb-6">
+      <h2 id="form-heading" className="font-heading text-2xl font-semibold text-[var(--cream)] text-center mb-5">
         Add Your Name
       </h2>
 
@@ -95,7 +95,9 @@ export default function PetitionFormSection() {
                   setError("");
                 }}
                 disabled={status === "submitting"}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50 cursor-pointer appearance-none bg-no-repeat bg-[length:12px] bg-[right_1rem_center] pr-10"
+                className={`w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50 cursor-pointer appearance-none bg-no-repeat bg-[length:12px] bg-[right_1rem_center] pr-10 ${
+                  form.country ? "text-[var(--cream)]" : "text-[var(--dim)]"
+                }`}
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a9389' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
                 }}

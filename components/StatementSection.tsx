@@ -12,7 +12,7 @@ function StatementParagraph({
   isRtl: boolean;
 }) {
   return (
-    <p className={isRtl ? "text-right" : ""}>
+    <p className={isRtl ? "text-right" : "text-left"}>
       {segments.map((seg, i) => {
         if (seg.type === "text") {
           return <span key={i}>{seg.value}</span>;
@@ -41,26 +41,26 @@ export default function StatementSection({ lang }: Props) {
 
   return (
     <section
-      className="mx-auto max-w-2xl px-4 py-12 sm:py-16"
+      className="mx-auto max-w-2xl px-4 py-10 sm:py-12"
       aria-labelledby="statement-heading"
       dir={isRtl ? "rtl" : "ltr"}
     >
       <h2
         id="statement-heading"
-        className="font-serif text-xl font-bold leading-tight text-center text-[var(--cream)] sm:text-2xl mb-8"
+        className="font-heading text-xl font-bold leading-tight text-center text-[var(--cream)] sm:text-2xl mb-6"
       >
         {t.heading}
       </h2>
       <div
-        className={`space-y-6 text-[0.95rem] font-light leading-[1.85] text-[rgba(240,235,227,0.9)] ${
-          isRtl ? "text-right" : ""
+        className={`space-y-5 text-base font-light leading-[1.75] text-[rgba(240,235,227,0.92)] ${
+          isRtl ? "text-right" : "text-left"
         }`}
       >
         {t.paragraphs.map((segments, i) => (
           <StatementParagraph key={i} segments={segments} isRtl={isRtl} />
         ))}
       </div>
-      <div className="mt-10 flex justify-center">
+      <div className="mt-8 flex justify-center">
         <a
           href="#petition-form"
           className="inline-block rounded-lg bg-[var(--red)] px-6 py-3 font-semibold text-white transition hover:bg-[var(--red-l)] hover:shadow-[0_4px_20px_rgba(192,57,43,.35)] focus:outline-none focus:ring-2 focus:ring-[var(--red-l)] focus:ring-offset-2 focus:ring-offset-[var(--bg)]"
