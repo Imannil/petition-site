@@ -24,16 +24,12 @@ const INITIAL_SUPPORTER_EMAILS: string[] = [
   "ervand_abrahamian@baruch.cuny.edu"
 ];
 
-function firstName(fullName: string): string {
-  const parts = fullName.trim().split(/\s+/);
-  return parts[0] || fullName;
-}
-
 async function main() {
   // Re-sync initial supporters from content/initial-signatories (replaces any existing ones)
+  // Use full given name (all but last word) for firstName so list shows "Lastname, Firstname Middlename"
   const toInsert = initialSignatories.map((s, i) => ({
     fullName: s.fullName,
-    firstName: firstName(s.fullName),
+    firstName: getFirstNamesFromFullName(s.fullName) || s.fullName.trim().split(/\s+/)[0] || s.fullName,
     lastName: getLastNameForSort(s.fullName),
     email: INITIAL_SUPPORTER_EMAILS[i] ?? `initial-${i + 1}@stopiranwar.org`,
     country: s.country,
@@ -79,6 +75,26 @@ async function main() {
   }
   if (withoutLastName.length > 0) {
     console.log(`Backfilled firstName/lastName for ${withoutLastName.length} existing supporters.`);
+  }
+
+  // Ensure every supporter has full given name in firstName (e.g. "Ali Reza" not just "Ali")
+  const all = await prisma.supporter.findMany({
+    select: { id: true, fullName: true, firstName: true },
+  });
+  let updated = 0;
+  for (const s of all) {
+    const fullFirst = getFirstNamesFromFullName(s.fullName);
+    if (!fullFirst) continue;
+    if (fullFirst !== s.firstName) {
+      await prisma.supporter.update({
+        where: { id: s.id },
+        data: { firstName: fullFirst },
+      });
+      updated++;
+    }
+  }
+  if (updated > 0) {
+    console.log(`Normalized full first name for ${updated} supporters.`);
   }
 }
 

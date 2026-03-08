@@ -26,8 +26,10 @@ function capitalizeForDisplay(s: string): string {
 }
 
 /**
- * Build display name from firstName + lastName, or fall back to parsing fullName (legacy).
- * Always returns "Lastname, Firstname" with first letter of each part capitalized.
+ * Build display name for the public signatures list.
+ * Format: "Lastname, Firstname Middlename" — uses the full First Name (given name) including
+ * middle names or compound first names. Never truncates to the first token.
+ * When firstName/lastName are present, uses them in full; otherwise parses fullName (legacy).
  */
 export function getDisplayName(
   fullName: string,
@@ -41,7 +43,6 @@ export function getDisplayName(
   }
   const fromFull = formatFullNameToLastFirst(fullName);
   if (!fromFull) return fromFull;
-  // "Last, First" → capitalize each part
   const commaIdx = fromFull.indexOf(", ");
   if (commaIdx === -1) return capitalizeForDisplay(fromFull);
   return `${capitalizeForDisplay(fromFull.slice(0, commaIdx))}, ${capitalizeForDisplay(fromFull.slice(commaIdx + 2))}`;
