@@ -11,7 +11,8 @@ export default function PetitionFormSection() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [error, setError] = useState("");
   const [form, setForm] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     country: "",
     email: "",
     affiliation: "",
@@ -30,7 +31,7 @@ export default function PetitionFormSection() {
 
     if (result.ok) {
       setStatus("success");
-      setForm({ fullName: "", country: "", email: "", affiliation: "", consentGiven: false });
+      setForm({ firstName: "", lastName: "", country: "", email: "", affiliation: "", consentGiven: false });
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("petition-signed"));
       }
@@ -60,25 +61,47 @@ export default function PetitionFormSection() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="fullName" className="sr-only">
-                Full name (required)
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                required
-                maxLength={200}
-                placeholder="Full name *"
-                value={form.fullName}
-                onChange={(e) => {
-                  setForm((f) => ({ ...f, fullName: e.target.value }));
-                  setError("");
-                }}
-                disabled={status === "submitting"}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="sr-only">
+                  First name (required)
+                </label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  required
+                  maxLength={100}
+                  placeholder="First name *"
+                  value={form.firstName}
+                  onChange={(e) => {
+                    setForm((f) => ({ ...f, firstName: e.target.value }));
+                    setError("");
+                  }}
+                  disabled={status === "submitting"}
+                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="sr-only">
+                  Last name (required)
+                </label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  maxLength={100}
+                  placeholder="Last name *"
+                  value={form.lastName}
+                  onChange={(e) => {
+                    setForm((f) => ({ ...f, lastName: e.target.value }));
+                    setError("");
+                  }}
+                  disabled={status === "submitting"}
+                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--bg)] px-4 py-3 text-[var(--cream)] placeholder:text-[var(--dim)] focus:border-[var(--red-l)] focus:outline-none focus:ring-1 focus:ring-[var(--red-l)] disabled:opacity-50"
+                />
+              </div>
             </div>
 
             <div>

@@ -2,12 +2,18 @@ import { z } from "zod";
 
 // Country code/name: we use full country names; ensure value is in allowed set
 const COUNTRY_MAX = 100;
+const NAME_MAX = 100;
 
 export const signPetitionSchema = z.object({
-  fullName: z
+  firstName: z
     .string()
-    .min(1, "Full name is required.")
-    .max(200, "Name is too long.")
+    .min(1, "First name is required.")
+    .max(NAME_MAX, "First name is too long.")
+    .transform((s) => s.trim()),
+  lastName: z
+    .string()
+    .min(1, "Last name is required.")
+    .max(NAME_MAX, "Last name is too long.")
     .transform((s) => s.trim()),
   country: z
     .string()

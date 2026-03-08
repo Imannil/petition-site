@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { initialSignatories } from "@/content/initial-signatories";
-import { getLastNameForSort } from "@/lib/formatName";
+import { getLastNameForSort, getFirstNamesFromFullName, getLastWordFromFullName } from "@/lib/formatName";
 
 const DEFAULT_PAGE_SIZE = 100;
 const MAX_PAGE_SIZE = 100;
@@ -10,6 +10,8 @@ const MAX_PAGE_SIZE = 100;
 export type PublicSupporter = {
   id: string;
   fullName: string;
+  firstName?: string | null;
+  lastName?: string | null;
   country: string;
   affiliation: string | null;
   isInitialSupporter: boolean;
@@ -43,6 +45,8 @@ export async function getPublicSupporters(options: {
   let initialList: PublicSupporter[] = initialSignatories.map((s, i) => ({
     id: `initial-${i}`,
     fullName: s.fullName,
+    firstName: getFirstNamesFromFullName(s.fullName) || null,
+    lastName: getLastWordFromFullName(s.fullName) || null,
     country: s.country,
     affiliation: s.affiliation ?? null,
     isInitialSupporter: true as const,
@@ -91,12 +95,12 @@ export async function getPublicSupporters(options: {
   const includeInitialOnPage = page === 1 && totalInitial > 0;
   const initialPortion = includeInitialOnPage ? initialList : [];
 
-  type OtherRow = { id: string; fullName: string; country: string; affiliation: string | null };
+  type OtherRow = { id: string; fullName: string; firstName: string | null; lastName: string | null; country: string; affiliation: string | null };
   let others: OtherRow[];
   try {
     others = await prisma.supporter.findMany({
       where: searchWhere,
-      select: { id: true, fullName: true, country: true, affiliation: true },
+      select: { id: true, fullName: true, firstName: true, lastName: true, country: true, affiliation: true },
       orderBy: { lastName: "asc" },
       skip: othersSkip,
       take: othersTake,
@@ -105,7 +109,7 @@ export async function getPublicSupporters(options: {
     // DB may not have last_name column yet — use fullName order until you run: npx prisma db push && npm run db:seed
     others = await prisma.supporter.findMany({
       where: searchWhere,
-      select: { id: true, fullName: true, country: true, affiliation: true },
+      select: { id: true, fullName: true, firstName: true, lastName: true, country: true, affiliation: true },
       orderBy: { fullName: "asc" },
       skip: othersSkip,
       take: othersTake,
@@ -117,6 +121,8 @@ export async function getPublicSupporters(options: {
     ...others.map((s: OtherRow) => ({
       id: s.id,
       fullName: s.fullName,
+      firstName: s.firstName,
+      lastName: s.lastName,
       country: s.country,
       affiliation: s.affiliation,
       isInitialSupporter: false as const,

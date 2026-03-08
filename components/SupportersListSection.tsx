@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { formatFullNameToLastFirst } from "@/lib/formatName";
+import { getDisplayName } from "@/lib/formatName";
 
 type Supporter = {
   id: string;
   fullName: string;
+  firstName?: string | null;
+  lastName?: string | null;
   country: string;
   affiliation: string | null;
   isInitialSupporter: boolean;
@@ -99,7 +101,7 @@ export default function SupportersListSection() {
                 />
                 <div className="min-w-0 flex-1">
                   <span className="text-sm font-medium text-[var(--cream)]">
-                    {formatFullNameToLastFirst(s.fullName)}
+                    {getDisplayName(s.fullName, s.firstName, s.lastName)}
                   </span>
                   <span className="text-xs text-[var(--dim)]"> · {s.country}</span>
                   {s.affiliation && (

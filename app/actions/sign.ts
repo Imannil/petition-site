@@ -22,7 +22,8 @@ export type SignResult =
 
 export async function signPetition(formData: FormData): Promise<SignResult> {
   const raw = {
-    fullName: formData.get("fullName") ?? "",
+    firstName: formData.get("firstName") ?? "",
+    lastName: formData.get("lastName") ?? "",
     country: formData.get("country") ?? "",
     email: formData.get("email") ?? "",
     affiliation: formData.get("affiliation") ?? "",
@@ -57,8 +58,9 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
   }
 
   const emailNormalized = data.email.trim().toLowerCase();
-  const fullName = sanitize(data.fullName, 200);
-  const firstName = fullName.split(/\s+/)[0] || fullName;
+  const firstName = sanitize(data.firstName, 100);
+  const lastName = sanitize(data.lastName, 100);
+  const fullName = `${firstName} ${lastName}`.trim();
   const country = sanitize(data.country, 100);
   const affiliation = data.affiliation ? sanitize(data.affiliation, 300) : null;
 
@@ -77,7 +79,7 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
         data: {
           fullName,
           firstName,
-          lastName: getLastNameForSort(fullName),
+          lastName: lastName.trim() || getLastNameForSort(fullName),
           email: emailNormalized,
           emailHash: hash(emailNormalized),
           country,

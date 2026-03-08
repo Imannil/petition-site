@@ -1,6 +1,6 @@
 import { prisma } from "../lib/db";
 import { initialSignatories } from "../content/initial-signatories";
-import { getLastNameForSort } from "../lib/formatName";
+import { getLastNameForSort, getFirstNamesFromFullName, getLastWordFromFullName } from "../lib/formatName";
 
 /**
  * Emails for initial supporters (same order as initialSignatories).
@@ -63,7 +63,7 @@ async function main() {
   }
   console.log(`Seeded ${toInsert.length} initial supporters.`);
 
-  // Backfill lastName for existing supporters that don't have it yet
+  // Backfill firstName and lastName from fullName for existing supporters (legacy records)
   const withoutLastName = await prisma.supporter.findMany({
     where: { lastName: null },
     select: { id: true, fullName: true },
@@ -71,11 +71,14 @@ async function main() {
   for (const s of withoutLastName) {
     await prisma.supporter.update({
       where: { id: s.id },
-      data: { lastName: getLastNameForSort(s.fullName) },
+      data: {
+        firstName: getFirstNamesFromFullName(s.fullName) || s.fullName.trim().split(/\s+/)[0] || s.fullName,
+        lastName: getLastWordFromFullName(s.fullName) || getLastNameForSort(s.fullName),
+      },
     });
   }
   if (withoutLastName.length > 0) {
-    console.log(`Backfilled lastName for ${withoutLastName.length} existing supporters.`);
+    console.log(`Backfilled firstName/lastName for ${withoutLastName.length} existing supporters.`);
   }
 }
 
