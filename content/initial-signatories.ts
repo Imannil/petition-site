@@ -32,4 +32,44 @@ export const initialSignatories: InitialSignatory[] = [
     country: "United States",
     affiliation: "Northwestern University",
   },
+  {
+    fullName: "Omid Safi",
+    country: "United States",
+    affiliation: "Duke University",
+  },
+  {
+    fullName: "Hassan Ansari",
+    country: "United States",
+    affiliation: "Institute for Advanced Study, Princeton",
+  },
+  {
+    fullName: "Alireza Doostdar",
+    country: "United States",
+    affiliation: "University of Chicago",
+  },
+  {
+    fullName: "Hamidreza Samouei",
+    country: "United States",
+    affiliation: "Texas A&M University",
+  },
+  {
+    fullName: "Ahmad Sadri",
+    country: "United States",
+    affiliation: "Lake Forest College",
+  },
+  {
+    fullName: "Seyed Morteza Emadi",
+    country: "United States",
+    affiliation: "University of North Carolina-Chapel Hill",
+  },
+  {
+    fullName: "Arman Rahmim",
+    country: "United States",
+    affiliation: "University of British Columbia",
+  },
+  {
+    fullName: "Mohammad Saleh Zarepour",
+    country: "United States",
+    affiliation: "University of Manchester",
+  },
 ];

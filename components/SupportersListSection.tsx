@@ -2,7 +2,13 @@
 
 import { useEffect, useState, useCallback } from "react";
 
-type Supporter = { id: string; fullName: string; country: string; affiliation: string | null };
+type Supporter = {
+  id: string;
+  fullName: string;
+  country: string;
+  affiliation: string | null;
+  isInitialSupporter: boolean;
+};
 
 const PAGE_SIZE = 50;
 
@@ -48,13 +54,20 @@ export default function SupportersListSection() {
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const hasMore = page < totalPages;
+  const showInitialLabel =
+    page === 1 &&
+    supporters.length > 0 &&
+    supporters.some((s) => s.isInitialSupporter);
 
   return (
     <section
       className="mx-auto max-w-4xl px-4 py-12 sm:py-16"
       aria-labelledby="supporters-heading"
     >
-      <h2 id="supporters-heading" className="font-serif text-2xl font-semibold text-[var(--cream)] text-center mb-2">
+      <h2
+        id="supporters-heading"
+        className="font-serif text-2xl font-semibold text-[var(--cream)] text-center mb-2"
+      >
         Signatures
       </h2>
       <p className="text-center text-sm text-[var(--dim)] mb-6">
@@ -77,18 +90,33 @@ export default function SupportersListSection() {
 
       {!error && supporters.length > 0 && (
         <>
+          {showInitialLabel && (
+            <p
+              className="text-xs font-medium uppercase tracking-wider text-[var(--dim)] mb-3"
+              aria-hidden
+            >
+              Initial Signatories
+            </p>
+          )}
           <ul className="grid gap-2 sm:grid-cols-2" aria-busy={loading}>
             {supporters.map((s) => (
               <li
                 key={s.id}
                 className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
               >
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--green-t)]" aria-hidden />
+                <span
+                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--green-t)]"
+                  aria-hidden
+                />
                 <div className="min-w-0">
-                  <span className="font-medium text-[var(--cream)]">{s.fullName}</span>
+                  <span className="font-medium text-[var(--cream)]">
+                    {s.fullName}
+                  </span>
                   <span className="text-[var(--dim)]"> · {s.country}</span>
                   {s.affiliation && (
-                    <span className="block text-xs text-[var(--dim)] truncate">{s.affiliation}</span>
+                    <span className="block text-xs text-[var(--dim)] truncate">
+                      {s.affiliation}
+                    </span>
                   )}
                 </div>
               </li>

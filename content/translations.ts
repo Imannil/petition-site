@@ -36,7 +36,7 @@ export const translations = {
           {
             type: "text",
             value:
-              "We, the members of the intellectual, scientific, and professional community, condemn the unprovoked attacks by Israel and the United States against Iran. We view the war on Iran, which began with the ",
+              "We, members of the intellectual, scientific, and professional community as well as concerned citizens, condemn the unprovoked attacks by Israel and the United States against Iran. We view the war on Iran, which began with the ",
           },
           {
             type: "link",
@@ -46,7 +46,7 @@ export const translations = {
           {
             type: "text",
             value:
-              " and has continued with threats to the country's territorial integrity, the destruction of infrastructure, and the killing and endangerment of innocent civilians, as ",
+              " and has continued with threats to the country's territorial integrity, the destruction of infrastructure, and the killing and endangerment of innocent lives, as ",
           },
           {
             type: "link",
@@ -57,6 +57,8 @@ export const translations = {
             type: "text",
             value: ". These actions, including attacks on ",
           },
+          { type: "link", value: "residential buildings", href: L.residentialBuildings },
+          { type: "text", value: ", " },
           { type: "link", value: "hospitals", href: L.hospitals },
           { type: "text", value: ", " },
           { type: "link", value: "emergency facilities", href: L.emergencyFacilities },
@@ -74,7 +76,7 @@ export const translations = {
           {
             type: "text",
             value:
-              "Israel and the United States launched this latest round of aggression against Iran while negotiations were still underway. Such actions are unjust, illegal, and contrary to international law, and we call for the immediate end of this aggression and for full justice and redress for those who have been harmed.",
+              "Israel and the United States launched this latest round of aggression against Iran while negotiations were still underway. Such actions are unjust, and contrary to human values and international law. We call for the immediate end of this aggression and for full justice and redress for those who have been harmed.",
           },
         ],
       ],
@@ -97,7 +99,7 @@ export const translations = {
           {
             type: "text",
             value:
-              "ما، اعضای جامعهٔ دانشگاهی، علمی و حرفه‌ای، حملات غیرقابل‌توجیه اسرائیل و ایالات متحده علیه ایران را محکوم می‌کنیم. ما جنگ علیه ایران را که با ",
+              "ما، اعضای جامعهٔ دانشگاهی، علمی و حرفه‌ای، و همچنین شهروندان دغدغه‌مند، حملات غیرقابل‌توجیه و خودسرانه‌ی اسرائیل و ایالات متحده علیه ایران را محکوم می‌کنیم. ما جنگ علیه ایران را، که با ",
           },
           {
             type: "link",
@@ -107,7 +109,7 @@ export const translations = {
           {
             type: "text",
             value:
-              " آغاز شد و با تهدید تمامیت ارضی کشور، تخریب زیرساخت‌ها و کشتن و به‌خطر انداختن غیرنظامیان بی‌گناه ادامه یافت، ",
+              " آغاز شد و با تهدید تمامیت ارضی کشور، تخریب زیرساخت‌ها و کشتن و به‌خطر انداختن جان‌های بی‌گناه ادامه یافت، ",
           },
           {
             type: "link",
@@ -116,8 +118,7 @@ export const translations = {
           },
           {
             type: "text",
-            value:
-              " می‌دانیم. این اقدامات، از جمله حملات به ",
+            value: " می‌دانیم. این اقدامات، از جمله حملات به ",
           },
           { type: "link", value: "بیمارستان‌ها", href: L.hospitals },
           { type: "text", value: "، " },

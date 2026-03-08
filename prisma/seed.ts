@@ -12,6 +12,14 @@ const INITIAL_SUPPORTER_EMAILS: string[] = [
   "mohsen.kadivar@duke.edu",
   "smousavian@luc.edu",
   "heydar.davoudi@northwestern.edu",
+  "omid.safi@duke.edu",
+  "afarhang1349@ias.edu",
+  "doostdar@uchicago.edu",
+  "samouei@tamu.edu",
+  "sadri@lakeforest.edu",
+  "Seyed_Emadi@kenan-flagler.unc.edu",
+  "arman.rahmim@ubc.ca",
+  "mohammadsaleh.zarepour@manchester.ac.uk",
 ];
 
 function firstName(fullName: string): string {

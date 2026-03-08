@@ -3,6 +3,8 @@
  * Update here if any link needs to change.
  */
 export const STATEMENT_LINKS = {
+  residentialBuildings:
+    "https://www.aljazeera.com/news/2026/3/6/tehran-hit-by-heavy-bombing-on-day-seven-of-us-israel-war-on-iran",
   minab:
     "https://www.nytimes.com/2026/03/05/world/middleeast/iran-school-us-strikes-naval-base.html",
   graveViolation:

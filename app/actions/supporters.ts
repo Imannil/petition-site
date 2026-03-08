@@ -10,6 +10,7 @@ export type PublicSupporter = {
   fullName: string;
   country: string;
   affiliation: string | null;
+  isInitialSupporter: boolean;
 };
 
 export async function getSupportersCount(): Promise<number> {
@@ -18,6 +19,11 @@ export async function getSupportersCount(): Promise<number> {
   });
 }
 
+/**
+ * Returns supporters for public display: initial supporters first (pinned),
+ * then all other approved supporters in alphabetical order by full name.
+ * Pagination accounts for initial supporters on page 1.
+ */
 export async function getPublicSupporters(options: {
   page?: number;
   pageSize?: number;
@@ -30,29 +36,60 @@ export async function getPublicSupporters(options: {
   );
   const search = typeof options.search === "string" ? options.search.trim() : "";
 
-  const where = {
-    isApproved: true,
-    ...(search
-      ? {
-          OR: [
-            { fullName: { contains: search, mode: "insensitive" as const } },
-            { country: { contains: search, mode: "insensitive" as const } },
-            { affiliation: { contains: search, mode: "insensitive" as const } },
-          ],
-        }
-      : {}),
-  };
+  const searchWhere = search
+    ? {
+        isApproved: true as const,
+        OR: [
+          { fullName: { contains: search, mode: "insensitive" as const } },
+          { country: { contains: search, mode: "insensitive" as const } },
+          { affiliation: { contains: search, mode: "insensitive" as const } },
+        ],
+      }
+    : { isApproved: true as const };
 
-  const [supporters, total] = await Promise.all([
-    prisma.supporter.findMany({
-      where,
-      select: { id: true, fullName: true, country: true, affiliation: true },
-      orderBy: [{ createdAt: "desc" }],
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    }),
-    prisma.supporter.count({ where }),
-  ]);
+  // Pinned initial supporters: always first, ordered by creation
+  const initialSupporters = await prisma.supporter.findMany({
+    where: { ...searchWhere, isInitialSupporter: true },
+    select: { id: true, fullName: true, country: true, affiliation: true },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const totalInitial = initialSupporters.length;
+  const totalOthers = await prisma.supporter.count({
+    where: { ...searchWhere, isInitialSupporter: false },
+  });
+  const total = totalInitial + totalOthers;
+
+  // Page 1: initial supporters + first (pageSize - totalInitial) others
+  // Page 2+: only others, with skip/take adjusted
+  const othersSkip =
+    page === 1 ? 0 : Math.max(0, (page - 1) * pageSize - totalInitial);
+  const othersTake =
+    page === 1
+      ? Math.max(0, pageSize - totalInitial)
+      : Math.min(pageSize, totalOthers - othersSkip);
+
+  const includeInitialOnPage = page === 1 && totalInitial > 0;
+  const initialPortion = includeInitialOnPage ? initialSupporters : [];
+
+  const others = await prisma.supporter.findMany({
+    where: { ...searchWhere, isInitialSupporter: false },
+    select: { id: true, fullName: true, country: true, affiliation: true },
+    orderBy: { fullName: "asc" },
+    skip: othersSkip,
+    take: othersTake,
+  });
+
+  const supporters: PublicSupporter[] = [
+    ...initialPortion.map((s: { id: string; fullName: string; country: string; affiliation: string | null }) => ({
+      ...s,
+      isInitialSupporter: true as const,
+    })),
+    ...others.map((s: { id: string; fullName: string; country: string; affiliation: string | null }) => ({
+      ...s,
+      isInitialSupporter: false as const,
+    })),
+  ];
 
   return { supporters, total };
 }
