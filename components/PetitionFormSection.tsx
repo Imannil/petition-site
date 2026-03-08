@@ -113,7 +113,7 @@ export default function PetitionFormSection() {
                 name="affiliation"
                 type="text"
                 maxLength={300}
-                placeholder="Academic/professional affiliation (highly recommended)"
+                placeholder="Job affiliation (highly recommended)"
                 value={form.affiliation}
                 onChange={(e) => setForm((f) => ({ ...f, affiliation: e.target.value }))}
                 disabled={status === "submitting"}
