@@ -22,9 +22,11 @@ model Supporter {
   updatedAt          DateTime @updatedAt @map("updated_at")
   ipHash             String?  @map("ip_hash")
   userAgentHash      String?  @map("user_agent_hash")
+  lastName           String?  @map("last_name")
 
   @@index([email])
   @@index([isApproved, createdAt])
   @@index([isInitialSupporter])
+  @@index([lastName])
   @@map("supporters")
 }

@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { signPetitionSchema } from "@/lib/validation";
+import { getLastNameForSort } from "@/lib/formatName";
 import { getClientIP, checkRateLimit } from "@/lib/rateLimit";
 import { COUNTRY_SET } from "@/data/countries";
 import { headers } from "next/headers";
@@ -70,21 +71,46 @@ export async function signPetition(formData: FormData): Promise<SignResult> {
       return { ok: false, error: "This email has already been used to sign the petition." };
     }
 
-    await prisma.supporter.create({
-      data: {
-        fullName,
-        firstName,
-        email: emailNormalized,
-        emailHash: hash(emailNormalized),
-        country,
-        affiliation,
-        consentGiven: true,
-        isApproved: true,
-        isInitialSupporter: false,
-        ipHash: hash(ip),
-        userAgentHash: hash(userAgent),
-      },
-    });
+    // Include lastName when DB has last_name column; retry without it if column is missing
+    try {
+      await prisma.supporter.create({
+        data: {
+          fullName,
+          firstName,
+          lastName: getLastNameForSort(fullName),
+          email: emailNormalized,
+          emailHash: hash(emailNormalized),
+          country,
+          affiliation,
+          consentGiven: true,
+          isApproved: true,
+          isInitialSupporter: false,
+          ipHash: hash(ip),
+          userAgentHash: hash(userAgent),
+        },
+      });
+    } catch (createErr: unknown) {
+      const msg = String(createErr && typeof createErr === "object" && "message" in createErr ? (createErr as { message: unknown }).message : createErr);
+      if (/last_name|lastName/i.test(msg) && /does not exist|column/i.test(msg)) {
+        await prisma.supporter.create({
+          data: {
+            fullName,
+            firstName,
+            email: emailNormalized,
+            emailHash: hash(emailNormalized),
+            country,
+            affiliation,
+            consentGiven: true,
+            isApproved: true,
+            isInitialSupporter: false,
+            ipHash: hash(ip),
+            userAgentHash: hash(userAgent),
+          },
+        });
+      } else {
+        throw createErr;
+      }
+    }
     return { ok: true };
   } catch (e: unknown) {
     const msg = e && typeof e === "object" && "code" in e && e.code === "P2002"
