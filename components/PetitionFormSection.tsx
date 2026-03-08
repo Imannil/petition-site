@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Script from "next/script";
 import { signPetition } from "@/app/actions/sign";
 import { COUNTRIES } from "@/data/countries";
 
@@ -17,6 +18,8 @@ export default function PetitionFormSection() {
     affiliation: "",
     consentGiven: false,
   });
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const showTurnstile = !!turnstileSiteKey;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,6 +54,12 @@ export default function PetitionFormSection() {
       </h2>
 
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+        {showTurnstile && turnstileSiteKey && (
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="afterInteractive"
+          />
+        )}
         {status === "success" ? (
           <div
             className="rounded-lg border border-[var(--green-t)]/25 bg-[var(--green-bg)] p-4 text-center text-[var(--green-t)]"
@@ -163,6 +172,15 @@ export default function PetitionFormSection() {
                 {CONSENT_TEXT}
               </span>
             </label>
+
+            {showTurnstile && turnstileSiteKey && (
+              <div
+                className="cf-turnstile"
+                data-sitekey={turnstileSiteKey}
+                data-theme="dark"
+                aria-label="Security check"
+              />
+            )}
 
             {error && (
               <div className="rounded-lg border border-red-900/30 bg-[var(--err-bg)] px-4 py-3 text-sm text-[var(--err-t)]">

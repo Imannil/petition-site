@@ -72,4 +72,14 @@ export const initialSignatories: InitialSignatory[] = [
     country: "United States",
     affiliation: "University of Manchester",
   },
+  {
+    fullName: "Juan Cole",
+    country: "United States",
+    affiliation: "University of Michigan",
+  },
+  {
+    fullName: "Mahmoud Sadri",
+    country: "United States",
+    affiliation: "Texas Woman's University",
+  },
 ];

@@ -104,10 +104,13 @@ You need a **PostgreSQL connection string** for production. Choose one option be
    - **Name:** `DATABASE_URL`  
      **Value:** your production PostgreSQL connection string from Step 2.  
      **Environments:** check **Production**, **Preview**, and **Development** if you use Vercel previews.
-3. (Optional) If you use Cloudflare Turnstile:
-   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` = your site key  
-   - `TURNSTILE_SECRET_KEY` = your secret key  
-   Add both for Production (and Preview if needed).
+3. (Optional) **Cloudflare Turnstile** (bot protection for the sign form):
+   - **Name:** `NEXT_PUBLIC_TURNSTILE_SITE_KEY` → **Value:** your Turnstile **site key** (public).  
+   - **Name:** `TURNSTILE_SECRET_KEY` → **Value:** your Turnstile **secret key** (private).  
+   - **Environments:** check **Production** (and **Preview** if you use preview deployments).
+   - Get keys: [Cloudflare Dashboard](https://dash.cloudflare.com) → **Turnstile** → Add widget → copy Site key and Secret key. Use the same domain (or leave “all domains” for testing).
+   - If **both** keys are set: the form shows the Turnstile widget and submissions are verified; if the widget is not completed or verification fails, the user sees “Verification failed. Please try again.”
+   - If you **do not** set these keys: the form works without Turnstile (no widget, no server-side verification).
 4. Click **Deploy**. Wait for the build to finish. The first deploy may succeed even before the database is set up; the app will need the DB for the form and signatures list to work.
 
 ---
@@ -164,7 +167,7 @@ The app needs the correct schema and initial supporters in the **production** da
 - [ ] Visit the live URL and submit a test signature; confirm it appears in the list.
 - [ ] Switch language (EN / Farsi) and check statement, form, and list.
 - [ ] Confirm initial supporters appear at the top of the signatures list.
-- [ ] If you use Turnstile, confirm the widget appears and submissions work.
+- [ ] If you use Turnstile, confirm the widget appears on the form and that a submission after completing it succeeds; try submitting without completing it and confirm you see “Verification failed. Please try again.”
 - [ ] (Optional) Add Turnstile keys and any CSP updates if you enable it later.
 - [ ] Keep `DATABASE_URL` and other secrets only in Vercel (and local `.env`); never commit them.
 

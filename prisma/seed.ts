@@ -20,6 +20,8 @@ const INITIAL_SUPPORTER_EMAILS: string[] = [
   "Seyed_Emadi@kenan-flagler.unc.edu",
   "arman.rahmim@ubc.ca",
   "mohammadsaleh.zarepour@manchester.ac.uk",
+  "jrcole@umich.edu",
+  "msadri@twu.edu",
 ];
 
 function firstName(fullName: string): string {
