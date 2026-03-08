@@ -40,7 +40,7 @@ export const initialSignatories: InitialSignatory[] = [
   {
     fullName: "Hassan Ansari",
     country: "United States",
-    affiliation: "Institute for Advanced Study, Princeton",
+    affiliation: "Institute for Advanced Study",
   },
   {
     fullName: "Alireza Doostdar",
@@ -81,5 +81,10 @@ export const initialSignatories: InitialSignatory[] = [
     fullName: "Mahmoud Sadri",
     country: "United States",
     affiliation: "Texas Woman's University",
+  },
+  {
+    fullName: "Ervand Abrahamian",
+    country: "United States",
+    affiliation: "City University of New York",
   },
 ];

@@ -23,6 +23,7 @@ const INITIAL_SUPPORTER_EMAILS: string[] = [
   "mohammadsaleh.zarepour@manchester.ac.uk",
   "jrcole@umich.edu",
   "msadri@twu.edu",
+  "ervand_abrahamian@baruch.cuny.edu"
 ];
 
 function firstName(fullName: string): string {
