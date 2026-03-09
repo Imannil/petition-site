@@ -97,4 +97,9 @@ export const initialSignatories: InitialSignatory[] = [
     country: "United States",
     affiliation: "Hartford International University for Religion and Peace",
   },
+  {
+    fullName: "Farhad Ghoddoussi",
+    country: "United States",
+    affiliation: "Wayne State University",
+  },
 ];
