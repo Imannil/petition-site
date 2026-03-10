@@ -118,7 +118,7 @@ export const translations = {
           },
           {
             type: "text",
-            value: " می‌دانیم. این اقدامات، از جمله حملات ",
+            value: " می‌دانیم. این اقدامات، از جمله حملات به ",
           },
           {
             type: "link",
