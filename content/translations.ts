@@ -25,18 +25,18 @@ export const translations = {
       titleStop: "Stop",
       titleIran: "Iran",
       titleWar: "War",
-      subtitle: "Urgent petition to stop the war against Iran",
+      subtitle: "Urgent petition to stop the war on Iran",
       signaturesLabel: "signatures",
       ctaButton: "Sign the Petition",
     },
     statement: {
-      heading: "Stop the Aggression Against Iran Immediately",
+      heading: "Stop the Aggression on Iran Immediately",
       paragraphs: [
         [
           {
             type: "text",
             value:
-              "We, members of the intellectual, scientific, and professional community as well as concerned citizens, condemn the unprovoked attacks by Israel and the United States against Iran. We view the war on Iran, which began with the ",
+              "We, members of the intellectual, scientific, and professional community as well as concerned citizens, condemn the unprovoked attacks by Israel and the United States on Iran. We view the war on Iran, which began with the ",
           },
           {
             type: "link",
@@ -76,7 +76,7 @@ export const translations = {
           {
             type: "text",
             value:
-              "Israel and the United States launched this latest round of aggression against Iran while negotiations were still underway. Such actions are unjust, and contrary to human values and international law. We call for the immediate end of this aggression and for full justice and redress for those who have been harmed.",
+              "Israel and the United States launched this latest round of aggression on Iran while negotiations were still underway. Such actions are unjust, and contrary to human values and international law. We call for the immediate end of this aggression and for full justice and redress for those who have been harmed.",
           },
         ],
       ],
