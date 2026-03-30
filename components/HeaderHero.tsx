@@ -41,7 +41,7 @@ export default function HeaderHero({ lang }: Props) {
               className="h-2 w-2 rounded-full bg-[var(--red)] shadow-[0_0_9px_rgba(192,57,43,.8)]"
               aria-hidden
             />
-            <span className="text-xs font-semibold uppercase tracking-widest text-[var(--cream)]">
+            <span className="text-[0.65rem] font-semibold uppercase leading-tight tracking-[0.1em] text-[var(--cream)] sm:text-xs sm:tracking-widest">
               {t.siteTitle}
             </span>
           </div>
@@ -62,7 +62,7 @@ export default function HeaderHero({ lang }: Props) {
         dir={isRtl ? "rtl" : "ltr"}
       >
         {isRtl ? (
-          <h1 className="font-heading text-4xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-5xl md:text-6xl animate-[fadeUp_0.55s_0.1s_ease_both]">
+          <h1 className="font-heading text-[clamp(1.125rem,4.5vw+0.35rem,2.25rem)] font-bold leading-[1.08] tracking-tight text-[var(--cream)] sm:text-5xl sm:leading-tight md:text-6xl animate-[fadeUp_0.55s_0.1s_ease_both]">
             <span className="text-[var(--red-l)]">جنگ</span>
             <span> با </span>
             <span className="text-[var(--red-l)]">ایران</span>
@@ -71,7 +71,7 @@ export default function HeaderHero({ lang }: Props) {
             <span> کنید</span>
           </h1>
         ) : (
-          <h1 className="font-heading text-5xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-6xl md:text-7xl animate-[fadeUp_0.55s_0.1s_ease_both]">
+          <h1 className="font-heading text-[clamp(0.9375rem,2.35vw+0.45rem,2.25rem)] font-bold leading-[1.08] tracking-tight text-[var(--cream)] sm:text-6xl sm:leading-tight md:text-7xl animate-[fadeUp_0.55s_0.1s_ease_both]">
             <span className="text-[var(--red-l)]">{t.titleStop}</span>{" "}
             <span className="text-[var(--cream)]">the</span>{" "}
             <span className="italic bg-gradient-to-br from-[var(--red)] to-[var(--red-l)] bg-clip-text text-transparent">
@@ -85,7 +85,7 @@ export default function HeaderHero({ lang }: Props) {
           {t.subtitle}
         </p>
         <div className="mt-10 inline-flex flex-col items-center gap-0.5 rounded-xl border border-[rgba(192,57,43,.35)] bg-[var(--surface)] px-8 py-4 animate-[fadeUp_0.55s_0.3s_ease_both]">
-          <span className="font-serif text-4xl font-bold text-[var(--cream)]">
+          <span className="font-heading text-4xl font-semibold tabular-nums tracking-normal text-[var(--cream)]">
             {count === null ? "…" : count.toLocaleString(lang === "fa" ? "fa-IR" : "en")}
           </span>
           <span className="text-xs uppercase tracking-[0.18em] text-[var(--dim)]">
