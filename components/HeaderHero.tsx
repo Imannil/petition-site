@@ -73,10 +73,12 @@ export default function HeaderHero({ lang }: Props) {
         ) : (
           <h1 className="font-heading text-5xl font-bold leading-tight tracking-tight text-[var(--cream)] sm:text-6xl md:text-7xl animate-[fadeUp_0.55s_0.1s_ease_both]">
             <span className="text-[var(--red-l)]">{t.titleStop}</span>{" "}
-            <span className="text-[var(--cream)]">{t.titleIran}</span>{" "}
+            <span className="text-[var(--cream)]">the</span>{" "}
             <span className="italic bg-gradient-to-br from-[var(--red)] to-[var(--red-l)] bg-clip-text text-transparent">
               {t.titleWar}
-            </span>
+            </span>{" "}
+            <span className="text-[var(--cream)]">on</span>{" "}
+            <span className="text-[var(--red-l)]">{t.titleIran}</span>
           </h1>
         )}
         <p className={`mt-4 text-[var(--dim)] text-sm font-light tracking-wide animate-[fadeUp_0.55s_0.2s_ease_both] sm:text-base ${isRtl ? "text-center" : ""}`}>

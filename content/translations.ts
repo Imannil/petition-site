@@ -21,7 +21,7 @@ export type StatementContent = {
 export const translations = {
   en: {
     hero: {
-      siteTitle: "Stop Iran War",
+      siteTitle: "Stop the War on Iran",
       titleStop: "Stop",
       titleIran: "Iran",
       titleWar: "War",

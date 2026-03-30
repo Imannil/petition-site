@@ -1,4 +1,4 @@
-# Stop Iran War — Petition Site
+# Stop the war on Iran — Petition Site
 
 Production-ready single-page petition website for **stopiranwar.org**. Built with Next.js (App Router), TypeScript, Tailwind CSS, and PostgreSQL (Prisma).
 

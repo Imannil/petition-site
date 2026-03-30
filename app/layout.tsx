@@ -21,7 +21,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Stop Iran War — Peace Petition",
+  title: "Stop the War on Iran — Peace Petition",
   description:
     "A petition calling for de-escalation, dialogue, and peace. Add your name in support.",
   icons: {
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.png",
   },
   openGraph: {
-    title: "Stop Iran War — Peace Petition",
+    title: "Stop the War on Iran — Peace Petition",
     description: "Sign the petition. Stand for peace.",
     url: "https://stopiranwar.org",
     type: "website",

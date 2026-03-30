@@ -103,7 +103,7 @@ export default function PetitionClient() {
         <nav>
           <div className="nav-l">
             <span className="nav-dot" />
-            <span className="nav-title">Stop Iran War</span>
+            <span className="nav-title">Stop the War on Iran</span>
           </div>
           <span className="nav-count">
             {total === null ? "…" : total.toLocaleString()} signed
@@ -115,8 +115,10 @@ export default function PetitionClient() {
           <div className="eyebrow">Open Petition · 2025</div>
           <h1>
             <span className="w-stop">Stop</span>{" "}
-            <span className="w-iran">Iran</span>{" "}
-            <span className="w-war">War</span>
+            <span className="w-iran">the</span>{" "}
+            <span className="w-war">War</span>{" "}
+            <span className="w-iran">on</span>{" "}
+            <span className="w-iran">Iran</span>
           </h1>
           <p className="tagline">A petition by Iranians in the diaspora calling for peace</p>
           <div className="counter">
