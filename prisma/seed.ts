@@ -25,6 +25,8 @@ const INITIAL_SUPPORTER_EMAILS: string[] = [
   "zvessal@gmail.com",
   "hkamaly@hartfordinternational.edu",
   "ghoddoussi.farhad@gmail.com",
+  "abdulkarimsoroush@gmail.com",
+  "abbas.amanat@yale.edu",
 ];
 
 async function main() {

@@ -102,4 +102,14 @@ export const initialSignatories: InitialSignatory[] = [
     country: "United States",
     affiliation: "Wayne State University",
   },
+  {
+    fullName: "Abdulkarim Soroush",
+    country: "United States",
+    affiliation: undefined,
+  },
+  {
+    fullName: "Abbas Amanat",
+    country: "United States",
+    affiliation: "William Graham Sumner Professor Emeritus of History, Yale University",
+  },
 ];
